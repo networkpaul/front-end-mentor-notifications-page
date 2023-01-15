@@ -1,6 +1,5 @@
 <template>
-   <!-- <div :class="{ notificationContainerActive: showAlert, notificationContainer: !showAlert }" @click="toggleAlert"> -->
-   <div :class="{ notificationContainerActive: showAlert, notificationContainer: !showAlert }">
+   <div :class="{ notificationContainerActive: showAlert, notificationContainer: !showAlert }" @click="toggleAlert">
         <div class="image-container">
             <img class="notification-image" src="../assets/notifications-page-main/assets/images/avatar-mark-webber.webp" alt="Profile picture">
         </div>
