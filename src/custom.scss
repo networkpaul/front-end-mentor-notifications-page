@@ -1,0 +1,15 @@
+@font-face {
+    font-family: JakartaSans;
+    src: url(../src/assets/notifications-page-main/assets/fonts/PlusJakartaSans-VariableFont_wght.ttf);
+}
+
+body {
+    background-color: #F7FAFD !important;
+    font-family: JakartaSans !important;
+}
+
+button {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+}
