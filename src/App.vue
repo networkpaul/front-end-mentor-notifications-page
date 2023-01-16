@@ -39,11 +39,10 @@
 </template>
 
 <script>
-import Notification from './components/Notification.vue'
 
 export default {
   name: 'App',
-  components: { Notification },
+  components: {},
   data() {
     return {
       notifications: [
