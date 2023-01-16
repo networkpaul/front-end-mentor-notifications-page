@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <header class="notifications-header">
+    <div class="notifications-container">
+      <header class="notifications-header">
       <div class="notifications-headerTitle">
         <h1 class="notifications-title">Notifications</h1>
         <span class="notifications-number">{{ unreadNotificationCount }}</span>
@@ -15,25 +16,24 @@
           <img :src="n.author.src" :alt="n.author.name" class="notification-image" />
         </div>
         <div class="text-container">
-          <span class="notification-text">
+          <div class="notification-text">
             <p class="notification-name">
               <a :href="n.author.href">{{ n.author.name }}</a>
             </p>
-            <p class="notification-default">
-              {{ n.text }}
-            </p>
+            <p class="notification-default">{{ n.text }}</p>
             <p class="notification-post">
               <a v-if="n.link" :href="n.link.href"> {{ n.link.text }}</a>
             </p>
             <span v-if="n.isUnread" class="isUnread"></span>
-          </span>
+          </div>
           <span class="notification-time">{{ n.time }}</span>
-          <p v-if="n.privateMessage" class="privateMessage">{{ n.privateMessage }}</p>
+          <p v-if="n.privateMessage" class="notification-message">{{ n.privateMessage }}</p>
         </div>
         <a v-if="n.image" :href="n.image.href">
           <img :src="n.image.src" :alt="n.image.alt" />
         </a>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -60,6 +60,7 @@ export default {
           },
           "time": "1m ago",
           "isUnread": true,
+          "privateMessage" : "",
         },
         {
           "id": "2",
@@ -75,6 +76,7 @@ export default {
           },
           "time": "5m ago",
           "isUnread": true,
+          "privateMessage" : "",
         },
         {
           "id": "3",
@@ -90,6 +92,7 @@ export default {
           },
           "time": "1 day ago",
           "isUnread": true,
+          "privateMessage" : "",
         },
         {
           "id": "4",
@@ -105,6 +108,7 @@ export default {
           },
           "time": "5 days ago",
           "isUnread": false,
+          "privateMessage" : "Hello, thanks for setting up the Chess Club. I've been a member for a few weeks now and I'm already having lots of fun and improving my game.",
         },
         {
           "id": "5",
@@ -120,6 +124,7 @@ export default {
           },
           "time": "1 week ago",
           "isUnread": false,
+          "privateMessage" : "",
         },
         {
           "id": "6",
@@ -135,6 +140,7 @@ export default {
           },
           "time": "2 weeks ago",
           "isUnread": false,
+          "privateMessage" : "",
         },
         {
           "id": "7",
@@ -150,6 +156,7 @@ export default {
           },
           "time": "2 weeks ago",
           "isUnread": false,
+          "privateMessage" : "",
         },
       ]
     }
@@ -179,8 +186,9 @@ export default {
 @import url(custom.scss);
 
 .notifications-container {
-  margin: 30px auto;
+  margin: auto;
   padding: 30px 20px;
+  min-width: 516px;
   max-width: 900px;
   display: flex;
   flex-direction: column;
@@ -229,8 +237,8 @@ export default {
 }
 
 .notifications-cardsContainer {
-  margin: 8px 30px;
-  width: 90%;
+  // margin: 8px 30px;
+  // width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -290,6 +298,11 @@ export default {
         color: #0A327B;
         cursor: pointer;
     }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 }
 
 .notification-default {
@@ -311,6 +324,11 @@ export default {
     &:hover {
         color: #0A327B;
         cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 }
 
@@ -352,6 +370,10 @@ export default {
         background-color: #DDE7EE;
         cursor: pointer;
     }
+}
+
+.unread {
+  background-color: #F7FAFD;
 }
 
 .isUnread {
