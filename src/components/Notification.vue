@@ -1,16 +1,18 @@
 <template>
    <div :class="{ notificationContainerActive: showAlert, notificationContainer: !showAlert }" @click="toggleAlert">
-        <div class="image-container">
-            <img class="notification-image" src="../assets/notifications-page-main/assets/images/avatar-mark-webber.webp" alt="Profile picture">
+        <div :class="{ 'alignSelf': message }" class="image-container">
+            <img class="notification-image" :src="pictureFilename" alt="Profile picture">
         </div>
         <div class="text-container">
             <span class="notification-text">
-                <p class="notification-name">Mark Webber</p>
-                <p class="notification-default">reacted to your recent post</p>
-                <p class="notification-post">My first tournament today!</p>
+                <p class="notification-name" v-if="name">{{ name }}</p>
+                <p class="notification-default" v-if="defaultText">{{ defaultText }}</p>
+                <p class="notification-post" v-if="post">{{ post }}</p>
+                <p class="notification-group" v-if="group">{{ group }}</p>
                 <span :class="{ notificationAlertActive: showAlert, notificationAlert: !showAlert }"></span>
             </span>
-            <span class="notification-time">1m ago</span>
+            <span class="notification-time">{{ time }}</span>
+            <p class="notification-message" v-if="message">{{ message }}</p>
         </div>
    </div> 
 </template>
@@ -22,6 +24,7 @@ export default {
             showAlert: true
         }
     },
+    props: [ 'pictureFilename', 'name', 'defaultText', 'post', 'group', 'time', 'message' ],
     methods: {
         toggleAlert() {
             this.showAlert = !this.showAlert
@@ -35,23 +38,25 @@ export default {
 .notificationContainerActive {
     margin: 8px 30px;
     padding: 20px 32px 20px 20px;
-    width: fit-content;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     background-color: #F7FAFD;
     border-radius: 8px;
+    gap: 20px;
 }
 
 .notificationContainer {
     margin: 8px 30px;
     padding: 20px 32px 20px 20px;
-    width: fit-content;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     background-color: #FFFFFF;
     border-radius: 8px;
+    gap: 20px;
 }
 
 .image-container {
@@ -65,11 +70,15 @@ export default {
 .notification-text {
     display: flex;
     align-items: center;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 7px;
 }
 
 .text-container {
-    min-width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 90%;
 }
 
 .notification-name {
@@ -78,6 +87,13 @@ export default {
     line-height: 20px;
     font-weight: 800;
     color: #1C202B;
+
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        color: #0A327B;
+        cursor: pointer;
+    }
 }
 
 .notification-default {
@@ -94,6 +110,27 @@ export default {
     line-height: 20px;
     font-weight: 800;
     color: #5E6778;
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        color: #0A327B;
+        cursor: pointer;
+    }
+}
+
+.notification-group {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 800;
+    color: #0A327B;
+
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        color: #0A327B;
+        cursor: pointer;
+    }
 }
 
 .notification-time {
@@ -101,6 +138,24 @@ export default {
     line-height: 20px;
     font-weight: 500;
     color: #939CAD;
+}
+
+.notification-message {
+    margin: 20px 0 0 0 ;
+    padding: 20px;
+    width: 90%;
+    border: 1px solid #DDE7EE;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #5E6778;
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        background-color: #DDE7EE;
+        cursor: pointer;
+    }
 }
 
 .notificationAlertActive {
@@ -119,4 +174,7 @@ export default {
     display: inline-block;
 }
 
+.alignSelf {
+    align-self: flex-start;
+}
 </style>
