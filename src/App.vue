@@ -4,14 +4,14 @@
       <div class="notifications-header">
         <div class="notifications-headerTitle">
           <h3 class="notifications-title">Notifications</h3>
-          <span class="notifications-number">5</span>
+          <span class="notifications-number">{{ number }}</span>
         </div>
         <button @click="markAllAsRead">
           <span class="notifications-markAllAsRead">Mark all as read</span>
         </button>
       </div>
       <div class="notifications-cardsContainer">
-        <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-mark-webber.webp')" :name="'Mark Weber'" :default-text="'reacted to your recent post'" :post="'My first tournament today!'" :time="'1m ago'" ref="Notification" />
+        <Notification v-on:getNumber="displayNumber" :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-mark-webber.webp')" :name="'Mark Weber'" :default-text="'reacted to your recent post'" :post="'My first tournament today!'" :time="'1m ago'" ref="Notification" />
         <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-angela-gray.webp')" :name="'Angela Gray'" :default-text="'followed you'" :post="''" :time="'1m ago'" ref="Notification" />
         <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-jacob-thompson.webp')" :name="'Jacob Thompson'" :default-text="'has joined your group'" :post="''" :group="'Chess Club'" :time="'1 day ago'" ref="Notification" />
         <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-rizky-hasanuddin.webp')" :name="'Rizky Hasanuddin'" :default-text="'sent you a private message'" :post="''" :group="''" :time="'5 days ago'" :message="'Hello, thanks for setting up the Chess Club. I’ve been a member for a few weeks now and I’m already having lots of fun and improving my game.'" ref="Notification" />
@@ -30,7 +30,9 @@ export default {
   name: 'App',
   components: { Notification },
   data() {
-    return {}
+    return {
+      number: null
+    }
   },
   methods: {
     markAllAsRead() {
