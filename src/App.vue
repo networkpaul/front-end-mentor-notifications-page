@@ -1,23 +1,36 @@
 <template>
   <div class="container">
-    <div class="notifications-container">
-      <div class="notifications-header">
-        <div class="notifications-headerTitle">
-          <h3 class="notifications-title">Notifications</h3>
-          <span class="notifications-number">{{ number }}</span>
-        </div>
-        <button @click="markAllAsRead">
-          <span class="notifications-markAllAsRead">Mark all as read</span>
-        </button>
+    <header>
+      <div class="title">
+        <h1>Notifications</h1>
+        <span class="badge">{{ unreadNotificationCount }}</span>
       </div>
-      <div class="notifications-cardsContainer">
-        <Notification v-on:getNumber="displayNumber" :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-mark-webber.webp')" :name="'Mark Weber'" :default-text="'reacted to your recent post'" :post="'My first tournament today!'" :time="'1m ago'" ref="Notification" />
-        <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-angela-gray.webp')" :name="'Angela Gray'" :default-text="'followed you'" :post="''" :time="'1m ago'" ref="Notification" />
-        <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-jacob-thompson.webp')" :name="'Jacob Thompson'" :default-text="'has joined your group'" :post="''" :group="'Chess Club'" :time="'1 day ago'" ref="Notification" />
-        <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-rizky-hasanuddin.webp')" :name="'Rizky Hasanuddin'" :default-text="'sent you a private message'" :post="''" :group="''" :time="'5 days ago'" :message="'Hello, thanks for setting up the Chess Club. I’ve been a member for a few weeks now and I’m already having lots of fun and improving my game.'" ref="Notification" />
-        <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-kimberly-smith.webp')" :name="'Kimberly Smith'" :default-text="'commented on your picture'" :post="''" :group="''" :time="'1 week ago'" ref="Notification" />
-        <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-nathan-peterson.webp')" :name="'Nathan Peterson'" :default-text="'reacted to your recent post'" :post="'5 end-game strategies to increase your win rate'" :group="''" :time="'2 weeks ago'" ref="Notification" />
-        <Notification :picture-filename="require('../src/assets/notifications-page-main/assets/images/avatar-anna-kim.webp')" :name="'Anna Kim'" :default-text="'left the group'" :post="''" :group="'Chess Club'" :time="'2 weeks ago'" ref="Notification" />
+      <button id="markAll" @click="markAllUnread">Mark all as read</button>
+    </header>
+    <div class="wrapper">
+      <div v-for="n in notifications" :key="n.id" @click="handleNotificationClick(n.id)" class="notification" :class="{ 'unread': n.isUnread }">
+        <div class="notification-content">
+            <img :src="n.author.src" :alt="n.author.name" class="headshot"/>
+            <div class="post">
+              <div>
+                <div>
+                  <div>
+                    <a :href="n.author.href">
+                      {{ n.author.name }}
+                    </a>
+                    <span> {{ n.text }}</span>
+                    <a v-if="n.link" :href="n.link.href"> {{ n.link.text }}</a>
+                    <span v-if="n.isUnread" class="isUnread"></span>
+                  </div>
+                </div>
+                <p class="time">{{ n.time }}</p>
+              </div>
+              <p v-if="n.privateMessage" class="privateMessage">{{ n.privateMessage }}</p>
+            </div>
+          </div>
+          <a v-if="n.image" :href="n.image.href">
+            <img :src="n.image.src" :alt="n.image.alt" />
+          </a>
       </div>
     </div>
   </div>
@@ -31,12 +44,130 @@ export default {
   components: { Notification },
   data() {
     return {
-      number: null
+      notifications: [
+        {
+          "id": "1",
+          "author": {
+            "name": "Mark Webber",
+            "img": "./assets/notifications-page-main/assets/images/avatar-mark-webber.webp",
+            "href": "#"
+          },
+          "text": "reacted to your recent post",
+          "link": {
+            "text": "My first tournament today!",
+            "href": "#"
+          },
+          "time": "1m ago",
+          "hasBeenRead": false,
+        },
+        {
+          "id": "2",
+          "author": {
+            "name": "Angela Gray",
+            "img": "./assets/notifications-page-main/assets/images/avatar-angela-gray.webp",
+            "href": "#"
+          },
+          "text": "followed you",
+          "link": {
+            "text": "",
+            "href": "#"
+          },
+          "time": "5m ago",
+          "hasBeenRead": false,
+        },
+        {
+          "id": "3",
+          "author": {
+            "name": "Jacob Thompson",
+            "img": "./assets/notifications-page-main/assets/images/avatar-jacob-thompson.webp",
+            "href": "#"
+          },
+          "text": "has joined your group",
+          "link": {
+            "text": "Chess Club",
+            "href": "#"
+          },
+          "time": "1 day ago",
+          "hasBeenRead": false,
+        },
+        {
+          "id": "4",
+          "author": {
+            "name": "Rizky Hasanuddin",
+            "img": "./assets/notifications-page-main/assets/images/avatar-rizky-hasanuddin.webp",
+            "href": "#"
+          },
+          "text": "sent you a private message",
+          "link": {
+            "text": "",
+            "href": "#"
+          },
+          "time": "5 days ago",
+          "hasBeenRead": false,
+        },
+        {
+          "id": "5",
+          "author": {
+            "name": "Kimberly Smith",
+            "img": "./assets/notifications-page-main/assets/images/avatar-kimberly-smith.webp",
+            "href": "#"
+          },
+          "text": "commented on your picture",
+          "link": {
+            "text": "",
+            "href": "#"
+          },
+          "time": "1 week ago",
+          "hasBeenRead": false,
+        },
+        {
+          "id": "6",
+          "author": {
+            "name": "Nathan Peterson",
+            "img": "./assets/notifications-page-main/assets/images/avatar-nathan-peterson.webp",
+            "href": "#"
+          },
+          "text": "reacted to your recent post",
+          "link": {
+            "text": "5 end-game strategies to increase your win rate",
+            "href": "#"
+          },
+          "time": "2 weeks ago",
+          "hasBeenRead": false,
+        },
+        {
+          "id": "7",
+          "author": {
+            "name": "Anna Kim",
+            "img": "./assets/notifications-page-main/assets/images/avatar-anna-kim.webp",
+            "href": "#"
+          },
+          "text": "left the group",
+          "link": {
+            "text": "Chess Club",
+            "href": "#"
+          },
+          "time": "2 weeks ago",
+          "hasBeenRead": false,
+        },
+      ]
+    }
+  },
+  computed: {
+    unreadNotificationCount() {
+      return this.notifications && this.notifications.filter(n => n.isUnread).length
     }
   },
   methods: {
-    markAllAsRead() {
-      this.$refs.Notification.toggleAlert()
+    markAllUnread() {
+      this.notifications = this.notifications.map(n => ({...n, isUnread: false}))
+    },
+    handleNotificationClick(id) {
+      this.notifications = this.notifications.map(n => (
+        n.id === id
+          ? {...n, isUnread: false}
+          : n
+      ))
     }
   }
 }
