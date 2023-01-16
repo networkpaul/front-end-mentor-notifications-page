@@ -30,9 +30,7 @@ export default {
   name: 'App',
   components: { Notification },
   data() {
-    return {
-      notifNumbers: null
-    }
+    return {}
   },
   methods: {
     markAllAsRead() {
