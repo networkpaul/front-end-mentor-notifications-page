@@ -29,6 +29,11 @@ import Notification from './components/Notification.vue'
 export default {
   name: 'App',
   components: { Notification },
+  data() {
+    return {
+      notifNumbers: null
+    }
+  },
   methods: {
     markAllAsRead() {
       this.$refs.Notification.toggleAlert()

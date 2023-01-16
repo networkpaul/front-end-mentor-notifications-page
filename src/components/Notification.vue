@@ -21,7 +21,8 @@
 export default {
     data() {
         return {
-            showAlert: true
+            showAlert: true,
+            number: 1
         }
     },
     props: [ 'pictureFilename', 'name', 'defaultText', 'post', 'group', 'time', 'message' ],
