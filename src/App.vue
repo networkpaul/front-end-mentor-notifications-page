@@ -1,36 +1,38 @@
 <template>
   <div class="container">
-    <header>
-      <div class="title">
-        <h1>Notifications</h1>
-        <span class="badge">{{ unreadNotificationCount }}</span>
+    <header class="notifications-header">
+      <div class="notifications-headerTitle">
+        <h1 class="notifications-title">Notifications</h1>
+        <span class="notifications-number">{{ unreadNotificationCount }}</span>
       </div>
-      <button id="markAll" @click="markAllUnread">Mark all as read</button>
+      <button id="markAll" @click="markAllUnread">
+        <span class="notifications markAllAsRead">Mark all as read</span>
+      </button>
     </header>
-    <div class="wrapper">
-      <div v-for="n in notifications" :key="n.id" @click="handleNotificationClick(n.id)" class="notification" :class="{ 'unread': n.isUnread }">
-        <div class="notification-content">
-            <img :src="n.author.src" :alt="n.author.name" class="headshot"/>
-            <div class="post">
-              <div>
-                <div>
-                  <div>
-                    <a :href="n.author.href">
-                      {{ n.author.name }}
-                    </a>
-                    <span> {{ n.text }}</span>
-                    <a v-if="n.link" :href="n.link.href"> {{ n.link.text }}</a>
-                    <span v-if="n.isUnread" class="isUnread"></span>
-                  </div>
-                </div>
-                <p class="time">{{ n.time }}</p>
-              </div>
-              <p v-if="n.privateMessage" class="privateMessage">{{ n.privateMessage }}</p>
-            </div>
-          </div>
-          <a v-if="n.image" :href="n.image.href">
-            <img :src="n.image.src" :alt="n.image.alt" />
-          </a>
+    <div class="notifications-cardsContainer">
+      <div v-for="n in notifications" :key="n.id" @click="handleNotificationClick(n.id)" class="notificationContainer" :class="{ 'unread': n.isUnread }">
+        <div class="image-container">
+          <img :src="n.author.src" :alt="n.author.name" class="notification-image" />
+        </div>
+        <div class="text-container">
+          <span class="notification-text">
+            <p class="notification-name">
+              <a :href="n.author.href">{{ n.author.name }}</a>
+            </p>
+            <p class="notification-default">
+              {{ n.text }}
+            </p>
+            <p class="notification-post">
+              <a v-if="n.link" :href="n.link.href"> {{ n.link.text }}</a>
+            </p>
+            <span v-if="n.isUnread" class="isUnread"></span>
+          </span>
+          <span class="notification-time">{{ n.time }}</span>
+          <p v-if="n.privateMessage" class="privateMessage">{{ n.privateMessage }}</p>
+        </div>
+        <a v-if="n.image" :href="n.image.href">
+          <img :src="n.image.src" :alt="n.image.alt" />
+        </a>
       </div>
     </div>
   </div>
@@ -49,7 +51,7 @@ export default {
           "id": "1",
           "author": {
             "name": "Mark Webber",
-            "img": "./assets/notifications-page-main/assets/images/avatar-mark-webber.webp",
+            "src": require("../src/assets/notifications-page-main/assets/images/avatar-mark-webber.webp"),
             "href": "#"
           },
           "text": "reacted to your recent post",
@@ -58,13 +60,13 @@ export default {
             "href": "#"
           },
           "time": "1m ago",
-          "hasBeenRead": false,
+          "isUnread": true,
         },
         {
           "id": "2",
           "author": {
             "name": "Angela Gray",
-            "img": "./assets/notifications-page-main/assets/images/avatar-angela-gray.webp",
+            "src": require("../src/assets/notifications-page-main/assets/images/avatar-angela-gray.webp"),
             "href": "#"
           },
           "text": "followed you",
@@ -73,13 +75,13 @@ export default {
             "href": "#"
           },
           "time": "5m ago",
-          "hasBeenRead": false,
+          "isUnread": true,
         },
         {
           "id": "3",
           "author": {
             "name": "Jacob Thompson",
-            "img": "./assets/notifications-page-main/assets/images/avatar-jacob-thompson.webp",
+            "src": require("../src/assets/notifications-page-main/assets/images/avatar-jacob-thompson.webp"),
             "href": "#"
           },
           "text": "has joined your group",
@@ -88,13 +90,13 @@ export default {
             "href": "#"
           },
           "time": "1 day ago",
-          "hasBeenRead": false,
+          "isUnread": true,
         },
         {
           "id": "4",
           "author": {
             "name": "Rizky Hasanuddin",
-            "img": "./assets/notifications-page-main/assets/images/avatar-rizky-hasanuddin.webp",
+            "src": require("../src/assets/notifications-page-main/assets/images/avatar-rizky-hasanuddin.webp"),
             "href": "#"
           },
           "text": "sent you a private message",
@@ -103,13 +105,13 @@ export default {
             "href": "#"
           },
           "time": "5 days ago",
-          "hasBeenRead": false,
+          "isUnread": false,
         },
         {
           "id": "5",
           "author": {
             "name": "Kimberly Smith",
-            "img": "./assets/notifications-page-main/assets/images/avatar-kimberly-smith.webp",
+            "src": require("../src/assets/notifications-page-main/assets/images/avatar-kimberly-smith.webp"),
             "href": "#"
           },
           "text": "commented on your picture",
@@ -118,13 +120,13 @@ export default {
             "href": "#"
           },
           "time": "1 week ago",
-          "hasBeenRead": false,
+          "isUnread": false,
         },
         {
           "id": "6",
           "author": {
             "name": "Nathan Peterson",
-            "img": "./assets/notifications-page-main/assets/images/avatar-nathan-peterson.webp",
+            "src": require("../src/assets/notifications-page-main/assets/images/avatar-nathan-peterson.webp"),
             "href": "#"
           },
           "text": "reacted to your recent post",
@@ -133,13 +135,13 @@ export default {
             "href": "#"
           },
           "time": "2 weeks ago",
-          "hasBeenRead": false,
+          "isUnread": false,
         },
         {
           "id": "7",
           "author": {
             "name": "Anna Kim",
-            "img": "./assets/notifications-page-main/assets/images/avatar-anna-kim.webp",
+            "src": require("../src/assets/notifications-page-main/assets/images/avatar-anna-kim.webp"),
             "href": "#"
           },
           "text": "left the group",
@@ -148,7 +150,7 @@ export default {
             "href": "#"
           },
           "time": "2 weeks ago",
-          "hasBeenRead": false,
+          "isUnread": false,
         },
       ]
     }
@@ -188,6 +190,18 @@ export default {
   background-color: white;
   border-radius: 15px;
   box-shadow: 0px 20px 60px rgba(73, 97, 168, 0.05);
+}
+
+.notificationContainer {
+    margin: 8px 30px;
+    padding: 20px 32px 20px 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    gap: 20px;
 }
 
 .notifications-header {
@@ -240,6 +254,121 @@ export default {
   &:hover {
     color: #0A327B;
   }
+}
+
+.image-container {
+    max-width: 5%;
+}
+
+.notification-image {
+    width: 100%;
+}
+
+.notification-text {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 90%;
+}
+
+.notification-name {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 800;
+    color: #1C202B;
+
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        color: #0A327B;
+        cursor: pointer;
+    }
+}
+
+.notification-default {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #5E6778;
+}
+
+.notification-post {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 800;
+    color: #5E6778;
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        color: #0A327B;
+        cursor: pointer;
+    }
+}
+
+.notification-group {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 800;
+    color: #0A327B;
+
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        color: #0A327B;
+        cursor: pointer;
+    }
+}
+
+.notification-time {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #939CAD;
+}
+
+.notification-message {
+    margin: 20px 0 0 0 ;
+    padding: 20px;
+    width: 90%;
+    border: 1px solid #DDE7EE;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #5E6778;
+    transition: all ease-in-out 0.3s;
+
+    &:hover {
+        background-color: #DDE7EE;
+        cursor: pointer;
+    }
+}
+
+.isUnread {
+    height: 10px;
+    width: 10px;
+    background-color: #F65552;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.notificationAlert {
+    height: 10px;
+    width: 10px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
 }
 
 </style>
