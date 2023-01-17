@@ -11,27 +11,27 @@
       </button>
     </header>
     <div class="notifications-cardsContainer">
-      <div v-for="n in notifications" :key="n.id" @click="handleNotificationClick(n.id)" class="notificationContainer" :class="{ 'unread': n.isUnread }">
-        <div class="image-container" :class="{ 'alignSelf': n.privateMessage}">
-          <img :src="n.author.src" :alt="n.author.name" class="notification-image" />
+      <div v-for="notification in notifications" :key="notification.id" @click="handleNotificationClick(notification.id)" class="notificationContainer" :class="{ 'unread': notification.isUnread }">
+        <div class="image-container" :class="{ 'alignSelf': notification.privateMessage}">
+          <img :src="notification.author.src" :alt="notification.author.name" class="notification-image" />
         </div>
         <div class="text-container">
           <div class="notification-text">
             <p class="notification-name">
-              <a :href="n.author.href">{{ n.author.name }}</a>
+              <a :href="notification.author.href">{{ notification.author.name }}</a>
             </p>
-            <p class="notification-default">{{ n.text }}</p>
+            <p class="notification-default">{{ notification.text }}</p>
             <p class="notification-post">
-              <a v-if="n.link" :href="n.link.href"> {{ n.link.text }}</a>
+              <a v-if="notification.link" :href="notification.link.href"> {{ notification.link.text }}</a>
             </p>
-            <span v-if="n.isUnread" class="isUnread"></span>
+            <span v-if="notification.isUnread" class="isUnread"></span>
           </div>
-          <span class="notification-time">{{ n.time }}</span>
-          <p v-if="n.privateMessage" class="notification-message">{{ n.privateMessage }}</p>
+          <span class="notification-time">{{ notification.time }}</span>
+          <p v-if="notification.privateMessage" class="notification-message">{{ notification.privateMessage }}</p>
         </div>
-        <div v-if="n.image" class="notification-postImage">
+        <div v-if="notification.image" class="notification-postImage">
           
-            <img :src="n.image.src" :alt="n.image.alt" />
+            <img :src="notification.image.src" :alt="notification.image.alt" />
           
         </div>      
       </div>
